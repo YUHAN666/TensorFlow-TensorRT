@@ -11,7 +11,8 @@
 	import graphsurgeon as gs
 	import tensorflow as tf
 
-	#自定义层upsample_2D_1，名字为"Upsample2D_1"，操作由自定义层"ResizeNearest_TRT2"实现，自定义层需要传入两个参数scale_x和scale_y，分别是长和宽的缩放比例
+	#自定义层upsample_2D_1，名字为"Upsample2D_1"，操作由自定义层"ResizeNearest_TRT2"实现
+	#自定义层需要传入两个参数scale_x和scale_y，分别是长和宽的缩放比例
 	upsample_2D_1 = gs.create_plugin_node(name="Upsample2D_1", op="ResizeNearest_TRT2", dtype=tf.float32, scale_x=8.0, scale_y=8.0)
 	upsample_2D_2 = gs.create_plugin_node(name="Upsample2D_2", op="ResizeNearest_TRT2", dtype=tf.float32, scale_x=4.0, scale_y=4.0)
 	upsample_2D_3 = gs.create_plugin_node(name="Upsample2D_3", op="ResizeNearest_TRT2", dtype=tf.float32, scale_x=10.0, scale_y=29.0)
@@ -40,18 +41,19 @@
 5.配置VS项目属性（需要使用VS CUDA Runtime创建项目）
   	常规	目标平台：8.1	平台工具集：Visual Studio 2015 (v140)
 
-	  修改C/C++ 附加包含目录至本机路径	C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include	(CUDA 头文件路径)
-						F:\opencv\build\include		(Opencv头文件路径)
-						F:\TensorRT-7.0.0.11.Windows10.x86_64.cuda-10.0.cudnn7.6\TensorRT-7.0.0.11\include	(TensorRT头文件路径)
+	  修改C/C++ 附加包含目录至本机路径	
+	  							C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include	(CUDA 头文件路径)
+								F:\opencv\build\include		(Opencv头文件路径)
+								F:\TensorRT-7.0.0.11.Windows10.x86_64.cuda-10.0.cudnn7.6\TensorRT-7.0.0.11\include	(TensorRT头文件路径)
 
 	  预处理器 预处理器定义  添加 _CRT_SECURE_NO_WARNINGS
 
-	  修改链接器 输入 至本机路径		F:\TensorRT-7.0.0.11.Windows10.x86_64.cuda-10.0.cudnn7.6\TensorRT-7.0.0.11\lib\*.lib	(TensorRT库文件)
-						C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\*.lib		(CUDA库文件)
-						F:\opencv\build\x64\vc15\lib\opencv_world420d.lib	(Opencv库文件, Release时去掉d)
+	  修改链接器 输入 至本机路径 F:\TensorRT-7.0.0.11.Windows10.x86_64.cuda-10.0.cudnn7.6\TensorRT-7.0.0.11\lib\*.lib	(TensorRT库文件)
+								C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\*.lib		(CUDA库文件)
+								F:\opencv\build\x64\vc15\lib\opencv_world420d.lib	(Opencv库文件, Release时去掉d)
 	
-	  将F:\opencv\build\x64\vc15\lib\opencv_world420d.dll拷贝至项目Debug目录下  
-	    F:\opencv\build\x64\vc15\lib\opencv_world420.dll拷贝至项目Release目录下  
+	  将 F:\opencv\build\x64\vc15\lib\opencv_world420d.dll拷贝至项目Debug目录下  
+	     F:\opencv\build\x64\vc15\lib\opencv_world420.dll拷贝至项目Release目录下  
 
 
 5.修改main.cpp中的
